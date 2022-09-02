@@ -30,6 +30,8 @@
   },
   "bugs": {
     "url": "https://github.com/Shushyy/SEO-Glossary-API/issues"
+  },"engines": {
+    "node": "16.13.1"
   },
   "homepage": "https://github.com/Shushyy/SEO-Glossary-API#readme",
   "description": ""
