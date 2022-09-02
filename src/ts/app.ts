@@ -80,10 +80,9 @@ app
     });
   });
 
-
-  /* ---------------------------------------------------------------------------------------------- */
-  /*                                Actions across specified endpoint                                */
-  /* ---------------------------------------------------------------------------------------------- */
+/* ---------------------------------------------------------------------------------------------- */
+/*                                Actions across specified endpoint                                */
+/* ---------------------------------------------------------------------------------------------- */
 app
   .route("/terms/:termName")
   .get((req: Request, res: Response) => {
@@ -122,25 +121,20 @@ app
     const termName = lodash.toLower(req.params.termName);
     const termUpdate = req.body;
 
-    Term.updateOne(
-      {term: termName},
-      {$set: termUpdate},
-      (err: any) => {
-        if (err) return res.send(err)
-        res.send(`Successfully updated ${termName} with ${termUpdate}`)
-      }
-    )
+    Term.updateOne({ term: termName }, { $set: termUpdate }, (err: any) => {
+      if (err) return res.send(err);
+      res.send(`Successfully updated ${termName} with ${termUpdate}`);
+    });
   })
   .delete((req: Request, res: Response) => {
     const termName = lodash.toLower(req.params.termName);
 
-    Term.deleteOne({term: termName}, (err: any) => {
-      if (err) return res.send(err)
+    Term.deleteOne({ term: termName }, (err: any) => {
+      if (err) return res.send(err);
 
-      res.send(`Successfully deleted [${termName}]`)
-    })
-  })
-
+      res.send(`Successfully deleted [${termName}]`);
+    });
+  });
 
 /* ---------------------------------------------------------------------------------------------- */
 /*                   Resets the database to the default list of seo terms on GET                  */
