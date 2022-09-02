@@ -8,9 +8,10 @@ import dotenv from "dotenv";
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const database = "";
+const database = "seoGlossaryDB";
+const password = process.env.DBPASS;
 await mongoose
-    .connect(`mongodb+srv://shushyy:foxfire1riftwalk1@cluster0.szrpyuj.mongodb.net/${database}`)
+    .connect(`mongodb+srv://shushyy:${password}@cluster0.szrpyuj.mongodb.net/${database}`)
     .then(() => {
     console.log("Connected to database");
 })
@@ -24,14 +25,33 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.listen(port);
 app.locals.lodash = lodash;
-const placeholderleSchema = new mongoose.Schema({
-    title: {
+const termSchema = new mongoose.Schema({
+    term: {
         require: true,
         type: String,
     },
-    body: String,
+    description: {
+        require: true,
+        type: String,
+    },
 });
-const Model = mongoose.model("Model", placeholderleSchema);
-app.get("/", (req, res) => {
-    res.render("home");
+const Term = mongoose.model("Term", termSchema);
+app.get("/terms", (req, res) => {
+    //Get all seo terms
+    Term.find({}, "-_id", (err, terms) => {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send({ terms });
+        }
+    });
+});
+app.post("/terms", (req, res) => {
+    const newTerm = new Term({
+        term: lodash.toLower(req.body.term),
+        description: lodash.capitalize(req.body.description),
+    });
+    newTerm.save();
+    res.send(newTerm);
 });
