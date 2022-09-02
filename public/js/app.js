@@ -10,7 +10,7 @@ dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const database = "seoGlossaryDB";
-const password = process.env.DBPASS;
+const password = "foxfire1riftwalk1";
 await mongoose
     .connect(`mongodb+srv://shushyy:${password}@cluster0.szrpyuj.mongodb.net/${database}`)
     .then(() => {

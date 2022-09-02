@@ -11,7 +11,7 @@ dotenv.config();
 const __filename: string = fileURLToPath(import.meta.url);
 const __dirname: string = dirname(__filename);
 const database: string = "seoGlossaryDB";
-const password: any = process.env.DBPASS;
+const password: any = "foxfire1riftwalk1";
 
 await mongoose
   .connect(
