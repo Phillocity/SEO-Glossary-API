@@ -37,7 +37,9 @@ const termSchema = new mongoose.Schema({
     },
 });
 const Term = mongoose.model("Term", termSchema);
-app.get("/terms", (req, res) => {
+app
+    .route("/terms")
+    .get((req, res) => {
     //Get all seo terms
     Term.find({}, "-_id -__v", (err, terms) => {
         if (err) {
@@ -47,14 +49,24 @@ app.get("/terms", (req, res) => {
             res.send(terms);
         }
     });
-});
-app.post("/terms", (req, res) => {
+})
+    .post((req, res) => {
     const newTerm = new Term({
         term: lodash.toLower(req.body.term),
         description: lodash.capitalize(req.body.description),
     });
     newTerm.save();
     res.send(newTerm);
+})
+    .delete((req, res) => {
+    Term.deleteMany({}, (err) => {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            res.send("Successfully deleted all terms");
+        }
+    });
 });
 app.get("/reset", (req, res) => {
     //Reset the database

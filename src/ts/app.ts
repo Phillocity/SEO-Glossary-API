@@ -46,26 +46,36 @@ const termSchema = new mongoose.Schema({
 
 const Term = mongoose.model("Term", termSchema);
 
-app.get("/terms", (req: Request, res: Response) => {
-  //Get all seo terms
-  Term.find({}, "-_id -__v", (err, terms) => {
-    if (err) {
-      res.send(err);
-    } else {
-      res.send(terms);
-    }
-  });
-});
+app
+  .route("/terms")
+  .get((req: Request, res: Response) => {
+    //Get all seo terms
+    Term.find({}, "-_id -__v", (err, terms) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send(terms);
+      }
+    });
+  })
+  .post((req: Request, res: Response) => {
+    const newTerm = new Term({
+      term: lodash.toLower(req.body.term),
+      description: lodash.capitalize(req.body.description),
+    });
+    newTerm.save();
 
-app.post("/terms", (req: Request, res: Response) => {
-  const newTerm = new Term({
-    term: lodash.toLower(req.body.term),
-    description: lodash.capitalize(req.body.description),
+    res.send(newTerm);
+  })
+  .delete((req: Request, res: Response) => {
+    Term.deleteMany({}, (err) => {
+      if (err) {
+        res.send(err);
+      } else {
+        res.send("Successfully deleted all terms");
+      }
+    });
   });
-  newTerm.save();
-
-  res.send(newTerm);
-});
 
 app.get("/reset", (req: Request, res: Response) => {
   //Reset the database
