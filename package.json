@@ -1,7 +1,6 @@
 {
   "name": "seo-glossary-api",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "nodemon public/js/app.js",
@@ -24,5 +23,14 @@
     "@types/express": "^4.17.13",
     "@types/lodash": "^4.14.184",
     "@types/node": "^18.7.13"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shushyy/SEO-Glossary-API.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Shushyy/SEO-Glossary-API/issues"
+  },
+  "homepage": "https://github.com/Shushyy/SEO-Glossary-API#readme",
+  "description": ""
 }
