@@ -256,36 +256,6 @@ export const defaultList: object[] = [
       "The different vehicles by which you can get attention and acquire traffic, such as organic search and social media.",
   },
   {
-    _id: "6311f752034582cf927553cf",
-    term: "chapter 2",
-    description: "How Search Engines Work – Crawling, Indexing, and Ranking",
-  },
-  {
-    _id: "6311f752034582cf927553d0",
-    term: "chapter 3",
-    description: "Keyword Research",
-  },
-  {
-    _id: "6311f752034582cf927553d1",
-    term: "chapter 4",
-    description: "On-Site Optimization",
-  },
-  {
-    _id: "6311f752034582cf927553d2",
-    term: "chapter 5",
-    description: "Technical Optimization",
-  },
-  {
-    _id: "6311f752034582cf927553d3",
-    term: "chapter 6",
-    description: "Link Building & Establishing Authority",
-  },
-  {
-    _id: "6311f752034582cf927553d4",
-    term: "chapter 7",
-    description: "Measuring, Prioritizing, & Executing SEO",
-  },
-  {
     _id: "6311f752034582cf927553d5",
     term: "citations",
     description:
