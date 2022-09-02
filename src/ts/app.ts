@@ -46,10 +46,13 @@ const termSchema = new mongoose.Schema({
 
 const Term = mongoose.model("Term", termSchema);
 
+/* ---------------------------------------------------------------------------------------------- */
+/*                                     Main seo terms endpoint                                    */
+/* ---------------------------------------------------------------------------------------------- */
 app
   .route("/terms")
   .get((req: Request, res: Response) => {
-    //Get all seo terms
+    /* -------------- Grabs all seo terms available whilst filtering out version and id ------------- */
     Term.find({}, "-_id -__v", (err, terms) => {
       if (err) {
         res.send(err);
@@ -77,8 +80,42 @@ app
     });
   });
 
+app
+  .route("/terms/:termName")
+  .get((req: Request, res: Response) => {
+    const query = lodash.toLower(req.params.termName);
+    /* ------- Finds all seo terms that contain query substring but also allowing exact match ------- */
+    Term.find(
+      {
+        $or: [{ term: { $regex: query } }, { description: { $regex: query } }],
+      },
+      "-_id -__v",
+      (err: any, terms: any) => {
+        if (err) {
+          res.send(err);
+        } else {
+          res.send(terms);
+        }
+      }
+    );
+  })
+  .put((req: Request, res: Response) => {
+    const termName = lodash.toLower(req.params.termName);
+    const termUpdate = lodash.toLower(req.body.term);
+    const descriptionUpdate = lodash.capitalize(req.body.description);
+
+    Term.updateOne(
+      { term: termName },
+      { term: termUpdate, description: descriptionUpdate },
+      (err: any) => {
+        if (!err) {
+          res.send(`Successfully updated [${termName}] to [${termUpdate}]`);
+        }
+      }
+    );
+  });
+
 app.get("/reset", (req: Request, res: Response) => {
-  //Reset the database
   Term.deleteMany({}, (err) => {
     if (err) {
       res.send(err);
