@@ -96,6 +96,23 @@ app
             res.send(`Successfully updated [${termName}] to [${termUpdate}]`);
         }
     });
+})
+    .patch((req, res) => {
+    const termName = lodash.toLower(req.params.termName);
+    const termUpdate = req.body;
+    Term.updateOne({ term: termName }, { $set: termUpdate }, (err) => {
+        if (err)
+            return res.send(err);
+        res.send(`Successfully updated ${termName} with ${termUpdate}`);
+    });
+})
+    .delete((req, res) => {
+    const termName = lodash.toLower(req.params.termName);
+    Term.deleteOne({ term: termName }, (err) => {
+        if (err)
+            return res.send(err);
+        res.send(`Successfully deleted [${termName}]`);
+    });
 });
 app.get("/reset", (req, res) => {
     Term.deleteMany({}, (err) => {

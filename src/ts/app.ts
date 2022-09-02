@@ -113,7 +113,29 @@ app
         }
       }
     );
-  });
+  })
+  .patch((req: Request, res: Response) => {
+    const termName = lodash.toLower(req.params.termName);
+    const termUpdate = req.body;
+
+    Term.updateOne(
+      {term: termName},
+      {$set: termUpdate},
+      (err: any) => {
+        if (err) return res.send(err)
+        res.send(`Successfully updated ${termName} with ${termUpdate}`)
+      }
+    )
+  })
+  .delete((req: Request, res: Response) => {
+    const termName = lodash.toLower(req.params.termName);
+
+    Term.deleteOne({term: termName}, (err: any) => {
+      if (err) return res.send(err)
+
+      res.send(`Successfully deleted [${termName}]`)
+    })
+  })
 
 app.get("/reset", (req: Request, res: Response) => {
   Term.deleteMany({}, (err) => {
