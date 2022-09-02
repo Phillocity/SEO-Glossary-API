@@ -1,5 +1,4 @@
-"use strict";
-const defaultTerms = [
+export const defaultList = [
     {
         _id: "6311f752034582cf927553a4",
         term: "10 blue links",

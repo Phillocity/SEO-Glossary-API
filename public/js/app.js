@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 import lodash from "lodash";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import { defaultList } from "./defaultList.js";
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -38,12 +39,12 @@ const termSchema = new mongoose.Schema({
 const Term = mongoose.model("Term", termSchema);
 app.get("/terms", (req, res) => {
     //Get all seo terms
-    Term.find({}, "-_id", (err, terms) => {
+    Term.find({}, "-_id -__v", (err, terms) => {
         if (err) {
             res.send(err);
         }
         else {
-            res.send({ terms });
+            res.send(terms);
         }
     });
 });
@@ -54,4 +55,22 @@ app.post("/terms", (req, res) => {
     });
     newTerm.save();
     res.send(newTerm);
+});
+app.get("/reset", (req, res) => {
+    //Reset the database
+    Term.deleteMany({}, (err) => {
+        if (err) {
+            res.send(err);
+        }
+        else {
+            Term.insertMany(defaultList, (err) => {
+                if (err) {
+                    res.send(err);
+                }
+                else {
+                    res.send("Database reset");
+                }
+            });
+        }
+    });
 });
