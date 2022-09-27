@@ -32,7 +32,7 @@ https://seo-glossary-api.herokuapp.com/terms
   DELETE /terms
 ```
 
-#### Update a specific term at as a whole both term name and description
+#### Update a specific term as a whole both term name and description
 
 ```http
   PUT /terms/${seo_term_name}
@@ -58,7 +58,7 @@ https://seo-glossary-api.herokuapp.com/terms
   DELETE /terms/${seo_term_name}
 ```
 
-#### Mannual database reset to default values
+#### Manual database reset to default values
 
 ```http
   Get /reset
