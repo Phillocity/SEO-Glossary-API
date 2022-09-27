@@ -3,7 +3,7 @@
 A glossary API for SEO terms compiled from Moz and Ahref glossaries, created with Express, Node, MongoDB and TypeScript.
 
 ## API Reference
-https://seo-glossary-api.herokuapp.com/
+https://seo-glossary-api.herokuapp.com/terms
 #### Get all items
 
 ```http
