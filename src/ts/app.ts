@@ -10,13 +10,11 @@ dotenv.config();
 
 const __filename: string = fileURLToPath(import.meta.url);
 const __dirname: string = dirname(__filename);
-const database: string = "seoGlossaryDB";
-const password: any = "foxfire1riftwalk1";
+const database: any = process.env.DATABASE;
+const mongo: any = process.env.MONGO;
 
 await mongoose
-  .connect(
-    `mongodb+srv://shushyy:${password}@cluster0.szrpyuj.mongodb.net/${database}`
-  )
+  .connect(mongo + database)
   .then(() => {
     console.log("Connected to database");
   })
@@ -25,7 +23,7 @@ await mongoose
   });
 
 const app: express.Application = express();
-const port: any = process.env.PORT
+const port: any = process.env.PORT;
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -46,6 +44,17 @@ const termSchema = new mongoose.Schema({
 
 const Term = mongoose.model("Term", termSchema);
 
+/* ----------------------------- Reset the database to base values every minute ---------------------------- */
+setInterval(() => {
+  const sec = new Date().getSeconds();
+  if (sec === 0) {
+    Term.deleteMany({}, (err) => {
+      Term.insertMany(defaultList, (err) => {
+        console.log("Database Reset");
+      });
+    });
+  }
+}, 1000);
 /* ---------------------------------------------------------------------------------------------- */
 /*                                     Main seo terms endpoint                                    */
 /* ---------------------------------------------------------------------------------------------- */
