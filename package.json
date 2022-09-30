@@ -24,6 +24,7 @@
     "mongoose": "^6.6.2",
     "nodemon": "^2.0.20",
     "side-channel": "^1.0.4",
+    "toidentifier": "^1.0.1",
     "whatwg-url": "^11.0.0"
   },
   "type": "module",
