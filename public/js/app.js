@@ -9,10 +9,10 @@ import { defaultList } from "./defaultList.js";
 dotenv.config();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-const database = "seoGlossaryDB";
-const password = process.env.DBPASS;
+const database = process.env.DATABASE;
+const mongo = process.env.MONGO;
 await mongoose
-    .connect(`mongodb+srv://shushyy:${password}@cluster0.szrpyuj.mongodb.net/${database}`)
+    .connect(mongo + database)
     .then(() => {
     console.log("Connected to database");
 })
@@ -20,7 +20,7 @@ await mongoose
     console.log(err);
 });
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT;
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
@@ -37,6 +37,17 @@ const termSchema = new mongoose.Schema({
     },
 });
 const Term = mongoose.model("Term", termSchema);
+/* ----------------------------- Reset the database to base values every minute ---------------------------- */
+setInterval(() => {
+    const sec = new Date().getSeconds();
+    if (sec === 0) {
+        Term.deleteMany({}, (err) => {
+            Term.insertMany(defaultList, (err) => {
+                console.log("Database Reset");
+            });
+        });
+    }
+}, 1000);
 /* ---------------------------------------------------------------------------------------------- */
 /*                                     Main seo terms endpoint                                    */
 /* ---------------------------------------------------------------------------------------------- */
